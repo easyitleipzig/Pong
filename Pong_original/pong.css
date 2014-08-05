@@ -1,0 +1,5 @@
+body {margin-left: 0pt; margin-top: 0pt;	margin-right: 0pt; margin-bottom: 0pt; background-image: url(brickwall.png)}
+label {font-family: Arial, Tahoma; font-size: 20pt; font-weight: 700; color:  white}
+#playground {position: absolute; left: 10pt; top: 10pt; width: 0pt; height: 0pt; background-color: #E6E6E6; z-Index: 0}
+#myBallDiv {position: absolute; width: 0pt; height: 0pt; z-Index: 1}
+#myRacketDiv {position: absolute; background-color: black; z-Index: 1; -moz-border-radius: 7pt; -webkit-border-radius: 7pt; border-radius: 7pt; background-image: url(racket.png)}

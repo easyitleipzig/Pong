@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Expires" content="Fri, Jan 01 1900 00:00:00 GMT">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Lang" content="de">
+<meta name="author" content="O. Thiele">
+<meta http-equiv="Reply-to" content="olaf.thiele@unister.de">
+<meta name="description" content="Ein Pongspiel">
+<meta name="keywords" content="JavaScript-Spiel JavaScript-Game">
+<meta name="creation-date" content="09/06/2013">
+<meta name="revisit-after" content="15 days">
+<title>Pong</title>
+<link rel="stylesheet" type="text/css" href="pong.css">
+<link rel="SHORTCUT ICON" href="pongico.ico">
+</head>
+<body>
+
+<script src="functionality.js"></script> 
+<script src="objects.js"></script> 
+<script>
+
+var myPlayground = Object.create(playground);
+myPlayground.init(400, 300, 30);
+
+var LevelDisplay = Object.create(display);
+LevelDisplay.init(myPlayground, 'lab_Level', 'Level', 1, 0);
+
+var HitsDisplay = Object.create(display);
+HitsDisplay.init(myPlayground, 'lab_Hits', 'Treffer', 0, 1);
+
+var ScoreDisplay = Object.create(display);
+ScoreDisplay.init(myPlayground, 'lab_Score', 'Punkte', 0, 2);
+
+var GameNameDisplay = Object.create(display);
+GameNameDisplay.init(myPlayground, 'lab_GameName', 'Unister Pong', '', 0);
+helper.$('lab_GameName').innerText = 'Unister Pong';
+helper.$('lab_GameName').style.top = '4pt';
+helper.$('lab_GameName').style.left = myPlayground.sizeX / 2 - myPlayground.margin / 2 + 'pt';
+
+var myRacket = racket;
+myRacket.init(myPlayground, 150);
+
+var myBall = ball;
+myBall.init( myPlayground, myRacket, helper.getRandomNumber(100, 200), HitsDisplay );
+myBall.createBall( 'myBallDiv' );
+
+function move(period) {
+	i++;
+	if( i > 100 ) {
+			LevelDisplay.increaseLevel();
+		if(j) {
+			period -= 10;
+		} else {
+			myRacket.increaseSize(10);
+		}
+		j = !j;
+		i = 0;
+		period = ( period === 0 ) ? 10 : period;
+		window.clearInterval(aktiv);
+		aktiv = window.setInterval(function(){move(period);}, period);
+	}
+	myBall.moveToNewPosition();
+    helper.$('lab_Score').innerHTML = 'Punkte ' + LevelDisplay.number * HitsDisplay.number;	
+}
+var aktiv = window.setInterval(function(){move(50);}, 50);
+var i = 0, j = false;
+document.getElementsByTagName('body')[0].addEventListener('keydown', 
+	function(e){
+		if(e.keyCode != 116) {
+			if(e.keyCode == 40) {
+				myRacket.move(true);
+			} else if(e.keyCode == 38) {
+				myRacket.move(false);
+			} else {
+			alert(e.keyCode);
+			window.clearInterval(aktiv);
+			};
+		};
+	});
+var oldMouseY = 0;
+document.addEventListener('mousemove', 
+	function(e){
+		if(oldMouseY < e.clientY) {
+				myRacket.move(true);
+				oldMouseY = e.clientY;
+			} else {
+				myRacket.move(false);
+				oldMouseY = e.clientY;
+			} 
+	});
+</script> 
+</body>
+</html>
