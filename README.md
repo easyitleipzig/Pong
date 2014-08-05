@@ -1,0 +1,4 @@
+Pong
+====
+
+JavaScript OOP Praxisbeispiel
